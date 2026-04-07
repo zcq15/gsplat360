@@ -1,12 +1,25 @@
-This repository is based on [gsplat v1.4.0](https://github.com/nerfstudio-project/gsplat/tree/v1.4.0).We acknowledge and appreciate the original authors for their open-source contribution.
 
-This fork includes partial modifications to the original code in order to enable panoramic image rendering for 3D Gaussian Splatting (3DGS).
+# gsplat360
+
+A gsplat-based rasterization designed for panoramic cameras, with support for 360-degree rendering for both 3DGS and 2DGS.
+
+This repository is derived from [gsplat v1.4.0](https://github.com/nerfstudio-project/gsplat/tree/v1.4.0).  
+We gratefully acknowledge the original authors for their open-source contribution.
+
+This project includes modifications to the original codebase to enable panoramic image rendering for 3D Gaussian Splatting (3DGS) and 2D Gaussian Splatting (2DGS).
+
+This project is distributed under the Apache License 2.0.  
+Please see the [LICENSE](./LICENSE) file for details.
 
 ## Installation
 
-**Dependence**: Please install [Pytorch](https://pytorch.org/get-started/locally/) first.
+### Dependencies
 
-**Install**: Clone the GitHub repository and install the package.
+Please install [PyTorch](https://pytorch.org/get-started/locally/) first.
+
+### Install from Source
+
+Clone the repository and install the package:
 
 ```bash
 git clone --recursive git@github.com:zcq15/gsplat360.git
@@ -16,11 +29,14 @@ pip install .
 
 ## Examples
 
+The following examples illustrate the main panoramic rendering interfaces provided by this project.
+
 **Panoramic 3DGS**
 ```python
 
 render, alpha, render_distort, info = rasterization(
     # Most parameters follow those of the corresponding function in gsplat.
+    means: Tensor,  # [N, 3]
     means: Tensor,  # [N, 3]
     quats: Tensor,  # [N, 4]
     scales: Tensor,  # [N, 3]
@@ -46,20 +62,23 @@ render, alpha, render_distort, info = rasterization(
     distributed: bool = False,
     covars: Optional[Tensor] = None,
 
-    # Enable panoramic rendering
+    # Enable panoramic rendering.
     camera_model: Literal["pinhole", "ortho", "fisheye", "equirectangular"] = "equirectangular",
     
-    # Optional
-    # Enable depth distortion loss from 2DGS
+    # ====== Optional ======
+
+    # Enable depth distortion loss from 2DGS.
     distloss: bool = False,
 
     # Get the occurrence count N_g and cumulative weight W_g corresponding to the maximum response.
-    # i.e., N_g = \|Ind_g\|, W_g = \sum_p \alpha_p, where p \in Ind_g, and Ind_g is the set of pixels dominated by Gaussian g
-    ret_visible: bool = False, # info["accum_times"] -> N_g, [C, N], info["accum_visible"] -> W_g, [C, N]
+    # i.e., N_g = |Ind_g|, W_g = \sum_p \alpha_p, where p \in Ind_g,
+    # and Ind_g is the set of pixels dominated by Gaussian g.
+    ret_visible: bool = False, # info["accum_times"] -> N_g, [C, N]; info["accum_visible"] -> W_g, [C, N]
 
     # Get the weighted sum of Gaussian features at the pixel with the maximum response.
-    # i.e., f_g = \sum_p \alpha_p f_p, where p \in Ind_g
-    query_values: Optional[Tensor] = None,  # [C, image_height, image_width, D], info["query_answers"] -> f_g, [C, D]
+    # i.e., f_g = \sum_p \alpha_p f_p, where p \in Ind_g.
+    query_values: Optional[Tensor] = None,   # [C, image_height, image_width, D], info["query_answers"] -> f_g, [C, D]
+
     # Gaussian confidence is introduced for backpropagating gradients to the Gaussian-to-view matrix.
     # When set to None or to an all-one tensor, the behavior is equivalent to the standard chain-rule implementation.
     gauss_confs: Optional[Tensor] = None,  # [N]
@@ -102,9 +121,9 @@ render, alpha, render_distort, info = rasterization(
   )
 ```
 
-## Contribution
+## Citation
 
-If you find this library useful in your projects or papers, please consider citing:
+If you find this project useful in your research or applications, please consider citing:
 
 
 ```
