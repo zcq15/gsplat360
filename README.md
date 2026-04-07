@@ -3,13 +3,11 @@
 
 A gsplat-based rasterization designed for panoramic cameras, with support for 360-degree rendering for both 3DGS and 2DGS.
 
-This repository is derived from [gsplat v1.4.0](https://github.com/nerfstudio-project/gsplat/tree/v1.4.0).  
-We gratefully acknowledge the original authors for their open-source contribution.
+This repository is derived from [gsplat v1.4.0](https://github.com/nerfstudio-project/gsplat/tree/v1.4.0). We gratefully acknowledge the original authors for their open-source contribution.
 
 This project includes modifications to the original codebase to enable panoramic image rendering for 3D Gaussian Splatting (3DGS) and 2D Gaussian Splatting (2DGS).
 
-This project is distributed under the Apache License 2.0.  
-Please see the [LICENSE](./LICENSE) file for details.
+This project is distributed under the Apache License 2.0. Please see the [LICENSE](./LICENSE) file for details.
 
 ## Installation
 
