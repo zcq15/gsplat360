@@ -8,8 +8,8 @@ import torch
 import torch.nn.functional as F
 from torch import Tensor
 
-from gsplat.compression.sort import sort_splats
-from gsplat.utils import inverse_log_transform, log_transform
+from gsplat360.compression.sort import sort_splats
+from gsplat360.utils import inverse_log_transform, log_transform
 
 
 @dataclass
