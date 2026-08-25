@@ -192,12 +192,12 @@ __global__ void fully_fused_projection_bwd_kernel(
 
     // add contribution from v_depths
     if (camera_model == CameraModelType::EQUIRECTANGULAR) {
-        const T eps = 1e-3f;
-        T v_d = v_depths[0];
-        T rxyz = 1.f / sqrtf(t.x * t.x + t.y * t.y + t.z * t.z + eps);
-        v_mean_c.x += v_d * t.x * rxyz;
-        v_mean_c.y += v_d * t.y * rxyz;
-        v_mean_c.z += v_d * t.z * rxyz;
+        const T v_d = v_depths[0];
+        const T inv_depth = 1.f / sqrtf(
+            mean_c.x * mean_c.x + mean_c.y * mean_c.y + mean_c.z * mean_c.z);
+        v_mean_c.x += v_d * mean_c.x * inv_depth;
+        v_mean_c.y += v_d * mean_c.y * inv_depth;
+        v_mean_c.z += v_d * mean_c.z * inv_depth;
     } else {
         v_mean_c.z += v_depths[0];
     }
